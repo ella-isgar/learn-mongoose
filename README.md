@@ -1,3 +1,17 @@
+To run MongoDB (i.e. the mongod process) as a macOS service, run: `brew services start mongodb-community@8.0`
+
+To check mongodb service is running: `brew services list`
+
+To run mongosh: `mongosh`
+
+To run server: `npx ts-node server.ts`
+
+To run app: within /library-ui, `npm start`
+
+---
+
+To stop a mongod running as a macOS service, use the following command as needed: `brew services stop mongodb-community@8.0`
+
 # Setup
 
 Run `npm install` to install all dependencies.
@@ -25,7 +39,7 @@ At any point, we can delete all data in the database and start afresh by using t
 Extend the server with a route `/book_dtls` to retrieve the details
 of a specific book. Assume that the ID of an existing book in the database will be passed as a query parameter (`req.query.id`). The route
 must respond with 200 status and an object with properties -- book title,
-book author's name, and the book instances for the book. Every book instance must have the properties imprint and status. 
+book author's name, and the book instances for the book. Every book instance must have the properties imprint and status.
 
 Verify the behavior by clicking on the book details button for a book in
 `library_ui`.
