@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import axios from 'axios';
-import ViewAuthor from './authors';
-import ViewBooks from './books';
-import ShowStatus from './available';
-import BookDetail from './bookdtls';
-import AddBook from './addbook';
-import makeUrl from '../utils/makeurl';
+import { useState } from "react";
+import axios from "axios";
+import ViewAuthor from "./authors";
+import ViewBooks from "./books";
+import ShowStatus from "./available";
+import BookDtl from "./book_dtls";
+import AddBook from "./addbook";
+import makeUrl from "../utils/makeurl";
 
 interface Content {
   data: string[];
@@ -26,24 +26,25 @@ export default function LibClient() {
    * The function builds the URL for the request to be sent to the server.
    * It also handles the response from the server and updates the component state.
    * Updating the component state causes the component to be re-rendered with the new data from the server response.
-   * @param contentType 
-   * @param bookId 
+   * @param contentType
+   * @param bookId
    */
-  function handleContent(contentType: string, bookId: string = 'NA') {
-    axios.get(makeUrl(contentType, bookId))
-      .then(res => {
-        let showDtls = false;
-        if (contentType === 'books') {
-          showDtls = true;
-        }
-        if (contentType === 'book_dtls') {
-          const copies = res.data.copies;
-          res.data = copies.map((copy: { imprint: string, status: string }) => {
-            return copy.imprint + ' | ' + copy.status;
-          });
-        }
-        setContent({ data: res.data, dtls: showDtls });
-      });
+  function handleContent(contentType: string, bookId: string = "NA") {
+    console.log("handleContent: ", contentType, bookId);
+    console.log(makeUrl(contentType, bookId));
+    axios.get(makeUrl(contentType, bookId)).then((res) => {
+      let showDtls = false;
+      if (contentType === "books") {
+        showDtls = true;
+      }
+      if (contentType === "book_dtls") {
+        const copies = res.data.copies;
+        res.data = copies.map((copy: { imprint: string; status: string }) => {
+          return copy.imprint + " | " + copy.status;
+        });
+      }
+      setContent({ data: res.data, dtls: showDtls });
+    });
   }
 
   return (
@@ -52,7 +53,9 @@ export default function LibClient() {
         {content.data.map((val, index) => (
           <li key={index}>
             {val}
-            {content.dtls && <BookDetail book={val} handleContent={handleContent} />}
+            {content.dtls && (
+              <BookDtl book={val} handleContent={handleContent} />
+            )}
           </li>
         ))}
       </ol>

@@ -39,6 +39,7 @@ export interface IBook extends Document {
  * @property {Function} getBookCount - A function to get the count of books.
  */
 interface IBookModel extends Model<IBook> {
+  getBook(id: string): Promise<IBook | null>;
   getAllBooksWithAuthors(
     projectionOpts: string,
     sortOpts?: { [key: string]: 1 | -1 }
@@ -63,6 +64,19 @@ const BookSchema: Schema<IBook> = new Schema({
   isbn: { type: String, required: true },
   genre: [{ type: Schema.Types.ObjectId, ref: "Genre" }], // NOTE: is an array because there can be multiple genres for one book.
 });
+
+/**
+ * The function to get a book by ID.
+ * It uses the mongoose query to find a book by ID
+ * and populates the author and genre fields.
+ * @param id of a book
+ * @returns a promise of the book or null.
+ */
+BookSchema.statics.getBook = async function (
+  id: string
+): Promise<IBook | null> {
+  return this.findById(id).populate("author").populate("genre").exec();
+};
 
 /**
  * the function retrieves all books with author information

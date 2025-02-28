@@ -19,10 +19,13 @@ router.get("/", async (req, res) => {
   try {
     const [book, copies] = await Promise.all([
       Book.getBook(id),
-      BookInstance.getBookDetails(id),
+      BookInstance.getBookDtls(id),
     ]);
+    console.log(book);
+    console.log(copies);
 
     if (!book) {
+      console.log(`Book ${id} not found`);
       res.status(404).send(`Book ${id} not found`);
       return;
     }

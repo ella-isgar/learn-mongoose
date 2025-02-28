@@ -1,4 +1,4 @@
-interface BookDetailProps {
+interface BookDtlProps {
   book: string;
   handleContent: (type: string, id?: string) => void;
 }
@@ -9,13 +9,12 @@ interface BookDetailProps {
  * and handleContent function to set the content type in the parent component.
  * @returns a component with a button to view the details of a book
  */
-export default function BookDetail({ book, handleContent }: BookDetailProps) {
+export default function BookDtl({ book, handleContent }: BookDtlProps) {
   function handleClick() {
-    const bookId = book.split(':')[0].trim();
-    handleContent('book_dtls', bookId);
+    console.log("BUTTON CLICKED. Show selected book's details.");
+    const bookId = book.split(":")[0].trim();
+    handleContent("book_dtls", bookId);
   }
 
-  return (
-    <button onClick={handleClick}>View Detail</button>
-  );
+  return <button onClick={handleClick}>View Detail</button>;
 }
